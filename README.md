@@ -4,6 +4,12 @@
 
 > "Box, box" is the radio call telling a driver to pit this lap. Strategy calls in F1 are made in seconds, on incomplete information. This project is about the engineering that makes a model useful in that window.
 
+<p align="center">
+  <img src="https://media.giphy.com/media/ehTz6odmTnLhSifWml/giphy.gif" alt="Charles Leclerc, visibly frustrated" width="420">
+  <br>
+  <sub>How every driver feels about a late strategy call. GIF: <a href="https://giphy.com/gifs/f1-angry-fuming-azerbaijan-grand-prix-ehTz6odmTnLhSifWml">Formula 1 on GIPHY</a></sub>
+</p>
+
 ---
 
 ## Why I built this
