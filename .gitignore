@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+.fastf1-cache/
+*.egg-info/
+.pytest_cache/
+models/*.onnx
+.DS_Store
+models/metrics.json
