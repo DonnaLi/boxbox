@@ -15,7 +15,7 @@ First, on a drying track, Red Bull brought Sergio Pérez in for intermediates. F
 Three laps later, Ferrari double-stacked Leclerc behind his teammate for slicks. They realised the gap was too tight and radioed "stay out," but by then he was already committed to the pit lane. He waited in the box, lost more places, and finished fourth. That was a **decision that arrived too late**.
 
 <!-- After running `python -m boxbox.viz`, uncomment the line below:
-![Monaco 2022: gap to leader, laps 1–30](docs/monaco2022.gif)
+![Monaco 2022 replay: real car positions, laps 15–23](docs/monaco2022_track.gif)
 -->
 
 Those two failures are this project. In F1, a strategy call has a deadline. A driver might be 15 seconds from pit entry when the pit wall has to decide. A prediction that arrives after the car has passed pit entry isn't slightly worse. It's worthless.
@@ -74,11 +74,12 @@ uvicorn boxbox.server:app --port 8000
 python -m boxbox.bench --race 2024:Monza --speed 1 10 50 --label batch20_wait5
 ```
 
-To make the Monaco 2022 replay GIF (gap to leader, lap by lap, with every pit stop marked from the timing data):
+To make the Monaco 2022 replay GIFs. Car dots follow the real X/Y positions from F1 live timing; the running order, tyres and pit stops are all computed from the data:
 
 ```bash
-python -m boxbox.viz                      # → docs/monaco2022.gif
-python -m boxbox.viz --race 2024:Monza --drivers LEC NOR PIA --laps 1 53
+python -m boxbox.viz                      # track replay → docs/monaco2022_track.gif
+python -m boxbox.viz --view gaps          # gap chart    → docs/monaco2022_gaps.gif
+python -m boxbox.viz --race 2024:Monza --drivers LEC NOR PIA --laps 20 30
 ```
 
 To compare batching configurations, restart the server with different settings and benchmark again:
