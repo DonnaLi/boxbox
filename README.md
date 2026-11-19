@@ -14,6 +14,10 @@ First, on a drying track, Red Bull brought Sergio Pérez in for intermediates. F
 
 Three laps later, Ferrari double-stacked Leclerc behind his teammate for slicks. They realised the gap was too tight and radioed "stay out," but by then he was already committed to the pit lane. He waited in the box, lost more places, and finished fourth. That was a **decision that arrived too late**.
 
+<!-- After running `python -m boxbox.viz`, uncomment the line below:
+![Monaco 2022: gap to leader, laps 1–30](docs/monaco2022.gif)
+-->
+
 Those two failures are this project. In F1, a strategy call has a deadline. A driver might be 15 seconds from pit entry when the pit wall has to decide. A prediction that arrives after the car has passed pit entry isn't slightly worse. It's worthless.
 
 That's what interested me. Most ML projects stop at "the model is accurate on a test set." In practice, the hard part is often **inference**: getting a prediction out reliably, under load, inside a latency budget, at a cost that makes sense. I wanted a project where that part couldn't be skipped. A live race has it built in. Requests come in synchronized bursts (every car crosses the line within about 90 seconds), the deadline is real, and the data keeps changing: tyres wear, fuel burns off, safety cars reset everything.
@@ -68,6 +72,13 @@ uvicorn boxbox.server:app --port 8000
 
 # benchmark (second terminal)
 python -m boxbox.bench --race 2024:Monza --speed 1 10 50 --label batch20_wait5
+```
+
+To make the Monaco 2022 replay GIF (gap to leader, lap by lap, with every pit stop marked from the timing data):
+
+```bash
+python -m boxbox.viz                      # → docs/monaco2022.gif
+python -m boxbox.viz --race 2024:Monza --drivers LEC NOR PIA --laps 1 53
 ```
 
 To compare batching configurations, restart the server with different settings and benchmark again:
