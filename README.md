@@ -88,6 +88,13 @@ python -m boxbox.viz --view gaps          # gap chart    → docs/monaco2022_gap
 python -m boxbox.viz --race 2024:Monza --drivers LEC NOR PIA --laps 20 30
 ```
 
+**Example output.** These were made on *synthetic test data* (`--synthetic`), not a real race, to show what the tool produces:
+
+<p align="center">
+  <img src="docs/example_track.gif" alt="Example track replay on synthetic data" width="49%">
+  <img src="docs/example_gaps.gif" alt="Example gap-to-leader chart on synthetic data" width="49%">
+</p>
+
 To compare batching configurations, restart the server with different settings and benchmark again:
 
 ```bash

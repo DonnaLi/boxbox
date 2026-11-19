@@ -50,6 +50,7 @@ class Race:
     total_laps: int
     pos: dict = field(default_factory=dict)       # driver -> (t, x, y)
     outline: tuple | None = None                  # (x, y) of one clean lap
+    source: str = "data: F1 live timing via FastF1 · unofficial"
 
 
 # ── loading ───────────────────────────────────────────────────────
@@ -98,7 +99,8 @@ def load_synthetic(drivers: list[str]) -> Race:
     laps["TimeS"] = laps.groupby("Driver")["LapTime"].cumsum()
     laps["StartS"] = laps["TimeS"] - laps["LapTime"]
     laps["PitInS"] = np.where(laps["IsPitLap"], laps["TimeS"] - 3, np.nan)
-    race = Race("Synthetic oval (test only)", laps, total)
+    race = Race("Synthetic oval (test only)", laps, total,
+                source="synthetic test data · not a real race")
     th = np.linspace(0, 2 * np.pi, 400)
     race.outline = (np.cos(th) * 1000, np.sin(th) * 450)
     for d in drivers:
@@ -141,12 +143,12 @@ def _ink(drivers, d):
     return DRIVER_INKS[drivers.index(d) % len(DRIVER_INKS)]
 
 
-def _frame(fig):
+def _frame(fig, source="data: F1 live timing via FastF1 · unofficial"):
     fig.patch.set_facecolor(PAPER)
     fig.add_artist(Line2D([0.03, 0.97], [0.90, 0.90], lw=HAIR, color=INK))
     fig.add_artist(Line2D([0.03, 0.97], [0.07, 0.07], lw=HAIR, color=RULE))
     fig.text(0.03, 0.035, "boxbox · race replay", color=MUTED, fontsize=7)
-    fig.text(0.97, 0.035, "data: F1 live timing via FastF1 · unofficial", color=MUTED,
+    fig.text(0.97, 0.035, source, color=MUTED,
              fontsize=7, ha="right")
 
 
@@ -161,7 +163,7 @@ def render_track(race: Race, drivers, lap_range, out: Path, fps=20, step_s=2.0) 
     events = [e for e in pit_events(race, drivers) if t0 <= e[0] <= t1]
 
     fig = plt.figure(figsize=(9, 5.4), dpi=100)
-    _frame(fig)
+    _frame(fig, race.source)
     title = fig.text(0.03, 0.925, "", color=INK, fontsize=10)
     ax = fig.add_axes([0.03, 0.10, 0.60, 0.77])
     ax.set_aspect("equal")
@@ -230,7 +232,7 @@ def render_gaps(race: Race, drivers, lap_range, out: Path, fps=3) -> Path:
     ymax = float(min(np.nanmax(gaps.to_numpy()), 40)) + 2
 
     fig = plt.figure(figsize=(9, 5), dpi=100)
-    _frame(fig)
+    _frame(fig, race.source)
     title = fig.text(0.03, 0.925, "", color=INK, fontsize=10)
     ax = fig.add_axes([0.08, 0.16, 0.86, 0.70])
 
